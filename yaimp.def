@@ -1,0 +1,4 @@
+LIBRARY "yaimp"
+
+EXPORTS
+    AIMPPluginGetHeader

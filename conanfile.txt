@@ -1,0 +1,10 @@
+[requires]
+nlohmann_json/3.9.1
+fmt/7.0.3
+ms-gsl/3.1.0
+utfcpp/3.1.1
+
+[generators]
+cmake
+
+[options]
