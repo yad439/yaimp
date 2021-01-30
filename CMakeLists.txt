@@ -68,7 +68,7 @@ if ("${CMAKE_CXX_COMPILER_ID}" MATCHES "GNU")
 	                       -Wstrict-overflow=5
 	                       -Winline
 	                       -Wundef
-	                       #-Wshadow
+	                       -Wshadow
 	                       -Wunreachable-code
 	                       -Wlogical-op
 	                       -Wstrict-aliasing=2
