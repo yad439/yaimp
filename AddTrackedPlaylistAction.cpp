@@ -1,7 +1,7 @@
 //
 // Created by YAD on 03.02.2020.
 //
-
+#ifdef YAIMP_UPDATABLE_PLAYLISTS
 #include "AddTrackedPlaylistAction.hpp"
 #include "AddUrlDialog.hpp"
 #include "Utility.hpp"
@@ -38,3 +38,4 @@ void AddTrackedPlaylistAction::operator()() const {
 		showMsgBox(_aimpCore, MB_ICONERROR, L"Exception!", L"Response parsing error!");
 	}
 }
+#endif

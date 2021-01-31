@@ -30,7 +30,7 @@ private:
 private:
 	const RefCounter<IAIMPMenuItem> _item;
 };
-
+#ifdef YAIMP_UPDATABLE_PLAYLISTS
 class TrackedPlaylistListener: public IUnknownImpl<IAIMPExtensionPlaylistManagerListener>{
 public:
 	TrackedPlaylistListener(std::shared_ptr<PlaylistManager> manager, RefCounter<IAIMPMenuItem> item);
@@ -47,5 +47,5 @@ private:
 	std::shared_ptr<PlaylistManager> _manager;
 	const RefCounter<IAIMPMenuItem> _menuItem;
 };
-
+#endif
 #endif //YAIMP_EVENTLISTENERS_HPP

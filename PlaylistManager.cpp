@@ -16,6 +16,7 @@ using namespace gsl;
 PlaylistManager::PlaylistManager(const RefCounter<IAIMPCore> &aimpCore, std::shared_ptr<YandexAPI> yandexApi)
 		: _aimpCore{aimpCore}, _aimpManager{queryObject(IAIMPServicePlaylistManager, aimpCore)},
 		  _yandexApi{move(yandexApi)} {
+#ifdef YAIMP_UPDATABLE_PLAYLISTS
 	IAIMPString *configDir{};
 	aimpCore->GetPath(AIMP_CORE_PATH_PROFILE, &configDir) | check;
 	Assert(configDir);
@@ -32,6 +33,7 @@ PlaylistManager::PlaylistManager(const RefCounter<IAIMPCore> &aimpCore, std::sha
 		if(!res)continue;
 		_updatablePlaylists.emplace(regMatch.str(1), YandexPlaylist{regMatch.str(2), regMatch.str(3)});
 	}
+#endif
 }
 
 void PlaylistManager::addToCurrent(IAIMPFileInfo *file) const {
@@ -50,7 +52,7 @@ RefCounter<IAIMPPlaylist> PlaylistManager::getCurrentPlaylist() const {
 	Assert(currentPlaylist);
 	return RefCounter{currentPlaylist};
 }
-
+#ifdef YAIMP_UPDATABLE_PLAYLISTS
 RefCounter<IAIMPPlaylist> PlaylistManager::createNew(IAIMPString *title, IAIMPObjectList *list) const {
 	IAIMPPlaylist *newPlaylist{};
 	_aimpManager->CreatePlaylist(title, false, pointer_cast<IAIMPPlaylist **>(&newPlaylist)) | check;
@@ -122,9 +124,9 @@ std::wstring PlaylistManager::getPlaylistId(IAIMPPlaylist *playlist) {
 	final_action _{[id] { id->Release(); }};
 	return {id->GetData(), gsl::narrow_cast<wstring::size_type>(id->GetLength())};
 }
-
 PlaylistManager::~PlaylistManager() {
 	wofstream config{_configPath};
 	for (const auto&[aimpId, yandexPlaylist]:_updatablePlaylists)
 		config << aimpId << '=' << yandexPlaylist.owner << '/' << yandexPlaylist.playlistId << '\n';
 }
+#endif

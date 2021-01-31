@@ -1,7 +1,7 @@
 //
 // Created by YAD on 03.02.2020.
 //
-
+#ifdef YAIMP_UPDATABLE_PLAYLISTS
 #ifndef YAIMP_ADDTRACKEDPLAYLISTACTION_HPP
 #define YAIMP_ADDTRACKEDPLAYLISTACTION_HPP
 
@@ -28,5 +28,5 @@ private:
 	const std::wregex _playlistRegex{L"https://music\\.yandex\\.ru/users/([\\w\\-]+)/playlists/([0-9]+)", std::regex::optimize};
 };
 
-
 #endif //YAIMP_ADDTRACKEDPLAYLISTACTION_HPP
+#endif

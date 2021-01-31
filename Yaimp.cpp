@@ -40,12 +40,14 @@ HRESULT Yaimp::Initialize(IAIMPCore *Core) {
 
 		const auto addUrlMenuItem = createMenu(Core, AIMP_MENUID_PLAYER_PLAYLIST_ADDING, L"AddUrl",
 		                                       AddUrlMenuAction{aimpCore, yandexAPI,_playlistManager});
+#ifdef YAIMP_UPDATABLE_PLAYLISTS
 		const auto addTrackedPlaylistMenuItem=createMenu(Core, AIMP_MENUID_PLAYER_PLAYLIST_ADDING, L"AddPlaylist",
 		                                                 AddTrackedPlaylistAction{aimpCore, yandexAPI,_playlistManager});
 		const auto reloadTrackedMenuItem=createMenu(Core, AIMP_MENUID_PLAYER_PLAYLIST_MISCELLANEOUS, L"UpdateTracked",
 		                                             [manager=_playlistManager]{manager->updateCurrentFromYandex();});
-		checkResult(Core->RegisterExtension(IID_IAIMPServicePlaylistManager, makeRefCounter<EditablePlaylistListener>(addUrlMenuItem)));
 		checkResult(Core->RegisterExtension(IID_IAIMPServicePlaylistManager, makeRefCounter<TrackedPlaylistListener>(_playlistManager, reloadTrackedMenuItem)));
+#endif
+		checkResult(Core->RegisterExtension(IID_IAIMPServicePlaylistManager, makeRefCounter<EditablePlaylistListener>(addUrlMenuItem)));
 		checkResult(Core->RegisterExtension(IID_IAIMPServiceOptionsDialog, makeRefCounter<OptionsFrame>(aimpCore,yandexAPI)));
 		checkResult(Core->RegisterExtension(IID_IAIMPServicePlayer, makeRefCounter<PlayerHook>(aimpCore, yandexAPI)));
 	} catch (const AimpQueryError&) {

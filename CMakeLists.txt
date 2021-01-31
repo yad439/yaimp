@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.12)
-project(yaimp VERSION 0.4.1 LANGUAGES CXX)
+project(yaimp VERSION 0.4.2 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 20)
 
@@ -44,6 +44,11 @@ if ("${YAIMP_UNICODE_CONVERSION_TYPE}" STREQUAL "Native")
 elseif("${YAIMP_UNICODE_CONVERSION_TYPE}" STREQUAL "SemiNative")
 	target_compile_definitions(yaimp PRIVATE YAIMP_UTF_CONVERSION_SEMI_NATIVE)
 endif ()
+
+option(UPDATABLE_PLAYLISTS "Enable updatable playlists feature" ON)
+if(UPDATABLE_PLAYLISTS)
+	target_compile_definitions(yaimp PRIVATE YAIMP_UPDATABLE_PLAYLISTS)
+endif()
 
 install(TARGETS yaimp DESTINATION "Plugins/yaimp")
 install(DIRECTORY Langs DESTINATION "Plugins/yaimp")

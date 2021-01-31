@@ -24,7 +24,7 @@ void WINAPI EditablePlaylistListener::PlaylistRemoved(IAIMPPlaylist *) {}
 const IID &EditablePlaylistListener::thisIID() {
 	return IID_IAIMPExtensionPlaylistManagerListener;
 }
-
+#ifdef YAIMP_UPDATABLE_PLAYLISTS
 TrackedPlaylistListener::TrackedPlaylistListener(shared_ptr<PlaylistManager> manager, RefCounter<IAIMPMenuItem> item) : _manager{move(manager)}, _menuItem{move(item)} {}
 
 void TrackedPlaylistListener::PlaylistActivated(IAIMPPlaylist* Playlist) {
@@ -40,3 +40,5 @@ void TrackedPlaylistListener::PlaylistRemoved(IAIMPPlaylist *Playlist) {
 const IID &TrackedPlaylistListener::thisIID() {
 	return IID_IAIMPExtensionPlaylistManagerListener;
 }
+
+#endif
